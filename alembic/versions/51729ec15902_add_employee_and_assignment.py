@@ -1,7 +1,7 @@
 """add employee and assignment
 
 Revision ID: 51729ec15902
-Revises: f021b607d334
+Revises: 0596b4bcab1c
 Create Date: 2026-04-06 15:45:47.307260
 
 """
@@ -13,7 +13,7 @@ import sqlmodel
 
 # revision identifiers, used by Alembic.
 revision: str = '51729ec15902'
-down_revision: Union[str, Sequence[str], None] = 'f021b607d334'
+down_revision: Union[str, Sequence[str], None] = '0596b4bcab1c'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
