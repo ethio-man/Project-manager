@@ -1,0 +1,14 @@
+[project]
+name = "week-2-backend-internship-task"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.18.4",
+    "fastapi>=0.135.3",
+    "fastapi-users[sqlalchemy]>=15.0.5",
+    "pydantic-settings>=2.13.1",
+    "sqlmodel>=0.0.38",
+    "uvicorn[standard]>=0.43.0",
+]
