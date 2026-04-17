@@ -3,7 +3,7 @@ from typing import Optional,List,TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.assignment import Assignment
-
+#pydantic schemas will be changed to SQLModel here
 class Project(SQLModel,table=True):
     id:Optional[int] =Field(default=None,primary_key=True)
     name:str

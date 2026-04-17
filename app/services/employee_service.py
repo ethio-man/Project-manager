@@ -5,7 +5,7 @@ from app.models.employee import Employee
 from app.models.assignment import Assignment
 from app.models.project import Project
 
-
+#Redis will be implemented here later
 def get_employee_workload(db: Session):
     statement = (
         select(
