@@ -38,7 +38,7 @@ services:
       redis:
         condition: service_healthy
     command: >
-      sh -c "until pg_isready -h postgres-db -U postgres -d project; do echo waiting for db; sleep 2; done && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8080"
+      sh -c "until pg_isready -h postgres-db -U postgres -d project; do echo waiting for db; sleep 2; done && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8080 --proxy-headers"
     environment:
       DATABASE_URL: postgresql://postgres:3dag5@postgres-db:5432/project
       REDIS_URL: redis://redis:6379/0

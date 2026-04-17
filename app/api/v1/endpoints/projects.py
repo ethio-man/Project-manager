@@ -1,6 +1,7 @@
 from fastapi import APIRouter,Depends
 from sqlmodel import Session
 from fastapi.encoders import jsonable_encoder
+from fastapi_limiter.depends import RateLimiter
 
 from app.core.database import get_session
 from app.core.redis_client import get_json, set_json
@@ -10,11 +11,11 @@ from app.services.project_service import create_project,get_project_team,update_
 
 router =APIRouter()
 
-@router.post('/',response_model=ProjectRead)
+@router.post('/',response_model=ProjectRead,dependencies=[Depends(RateLimiter(times=5,seconds=60))])
 def create_project_route(project:ProjectCreate,db:Session=Depends(get_session)):
     return create_project(db,project)
 
-@router.get("/{project_id}/team", response_model=list[EmployeeRead])
+@router.get("/{project_id}/team", response_model=list[EmployeeRead],dependencies=[Depends(RateLimiter(times=40,seconds=60))])
 def get_team(project_id: int, db: Session = Depends(get_session)):
     cache_key = f"project:{project_id}:team"
     cached_team = get_json(cache_key)
@@ -25,7 +26,7 @@ def get_team(project_id: int, db: Session = Depends(get_session)):
     set_json(cache_key, jsonable_encoder(team), ttl_seconds=120)
     return team
 
-@router.patch("/{project_id}", response_model=ProjectRead)
+@router.patch("/{project_id}", response_model=ProjectRead,dependencies=[Depends(RateLimiter(times=5,seconds=60))])
 def update_project_route(
     project_id: int,
     data: ProjectUpdate,
