@@ -1,6 +1,6 @@
 import redis.asyncio as redis
 from fastapi import FastAPI
-from app.api.v1.router import api_router
+from app.api.router import api_router
 from fastapi_limiter import FastAPILimiter
 import os 
 
