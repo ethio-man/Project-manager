@@ -5,6 +5,7 @@ from app.models.assignment import Assignment
 from app.models.project import Project
 from app.models.employee import Employee
 from app.schemas.assignment import AssignmentCreate
+from app.utils.enum import ProjectStatus
 
 def create_assignment(db:Session,data:AssignmentCreate):
     employee = db.get(Employee, data.employee_id)
@@ -14,10 +15,17 @@ def create_assignment(db:Session,data:AssignmentCreate):
     project=db.get(Project,data.project_id)
     if not project:
         raise HTTPException(status_code=404,detail='Project not found')
-    if project.status in ['Completed','Archived']:
+    if project.status in [ProjectStatus.COMPLETED, ProjectStatus.ARCHIVED]:
         raise HTTPException(status_code=400,detail='Cannot assign to inactive project')
     
-    statement=(select(Assignment).join(Project).where(Assignment.employee_id==data.employee_id,Project.status=='Active'))
+    statement=(
+        select(Assignment)
+        .join(Project)
+        .where(
+            Assignment.employee_id==data.employee_id,
+            Project.status==ProjectStatus.ACTIVE,
+        )
+    )
     active_assignments=db.exec(statement).all()
 
     if len(active_assignments) >=3:
